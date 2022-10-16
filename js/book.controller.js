@@ -3,6 +3,8 @@
 var gView
 const VIEW_STORAGE_KEY = 'favlayout'
 
+function addIcons() {}
+
 function onInit() {
   gView = getFromStorage(VIEW_STORAGE_KEY) || 'cards'
 
@@ -18,7 +20,7 @@ function onInit() {
   if (queryParams.get('opened-book')) onRead(queryParams.get('opened-book'))
 
   renderBooks()
-  _renderFilters()
+  _updateFilters()
   _renderPageNav()
 }
 
@@ -27,18 +29,18 @@ function renderBooks() {
   else _renderTable()
 }
 
-function onSetView(viewStr) {
-  gView = viewStr
-  saveToStorage(VIEW_STORAGE_KEY, viewStr)
+function onSetView(el) {
+  gView = el.data.view
+  saveToStorage(VIEW_STORAGE_KEY, gView)
   renderBooks()
-  _renderFilters()
+  _updateFilters()
 }
 
 function onFilter(filterObj) {
   filterObj = setFilter(filterObj)
   saveToQuery(filterObj)
   renderBooks()
-  _renderFilters()
+  _updateFilters()
 }
 
 function onSearch(searchObj, el) {
@@ -47,8 +49,8 @@ function onSearch(searchObj, el) {
   renderBooks()
 }
 
-function onPageFilter(pageFilterObj) {
-  pageFilterObj = setFilter(pageFilterObj)
+function onPageFilter(ev) {
+  const pageFilterObj = setFilter(ev.data)
   saveToQuery(pageFilterObj)
   renderBooks()
   _renderPageNav()
@@ -96,7 +98,7 @@ function _renderTable() {
     </table>
   `
 
-  document.querySelector('.container').innerHTML = tableHTML
+  document.querySelector('.container-1').innerHTML = tableHTML
 }
 
 function _renderCards() {
@@ -122,7 +124,7 @@ function _renderCards() {
   </section>
   `
 
-  document.querySelector('.container').innerHTML = cardViewHTML
+  document.querySelector('.container-1').innerHTML = cardViewHTML
 }
 
 function onRead(bookId) {
@@ -245,9 +247,9 @@ function onCloseOverlay(el) {
   el.parentElement.innerHTML = ''
   saveToQuery({ 'opened-book': '' })
 }
-function _renderFilters() {
+function _updateFilters() {
   const filter = getFilter()
-  const filterHTML = `
+  var filterHTML = `
         <div class="view-btn-container">
           <button
             onclick="onSetView('cards')"
@@ -268,8 +270,12 @@ function _renderFilters() {
             src="images/icons/list.svg"/>
           </button>
         </div>
+`
+  $('#view-btn')
+    .prop('checked', gView === 'cards')
+    .on('change', { view: gView === 'cards' ? 'table' : 'cards' }, onSetView)
 
-
+  filterHTML += `
         <button
           onclick="onFilter({filter: 'name'})"
           class="name-filter filter-btn ${
@@ -312,29 +318,48 @@ function _renderFilters() {
 function _renderPageNav() {
   const pageAmount = getPageAmount()
   const currPage = getCurrPageIdx()
-  const pageNav = document.querySelector('.page-nav')
+  const pageNav = $('[name=page-nav]')
 
-  if (pageAmount <= 1) return (pageNav.innerHTML = '')
+  if (pageAmount <= 1) return pageNav.addClass('disabled')
+
+  pageNav.removeClass('disabled')
 
   var pageNavHTML = `
-        <button onclick="onPageFilter({pageIdx:0})" class="page-btn">
-          &lt;&lt;
-        </button>
+        <li
+          data-page-idx="${currPage - 1}"
+          class="page-item page-link prev-page rounded-start">
+          &laquo;
+        </li>
         `
 
   for (var i = 1; i <= pageAmount; i++) {
-    pageNavHTML += `<button onclick="onPageFilter(
-      {pageIdx:${i - 1}})"
-      ${currPage === i - 1 ? 'disabled' : ''}
-      class="page-btn">${i}</button>`
+    pageNavHTML += `
+          <li
+            data-page-idx="${i - 1}"
+            class="page-item page-link">
+            ${i}
+          </li>
+          `
   }
 
   pageNavHTML += `
-        <button onclick="onPageFilter({pageIdx:${
-          pageAmount - 1
-        }})" class="page-btn">
-          &gt;&gt;
-        </button>`
+        <li
+          data-page-idx="${currPage + 1}"
+          class="page-item page-link next-page rounded-end">
+          &raquo;
+        </li>
+        `
 
-  pageNav.innerHTML = pageNavHTML
+  pageNav.find('.pagination').html(pageNavHTML)
+
+  pageNav.find('.page-link').each(function () {
+    const $el = $(this)
+    const pageIdx = $el.data('page-idx')
+    const isOutOfBound = pageIdx >= pageAmount || pageIdx < 0
+    if (isOutOfBound) return $el.addClass('disabled')
+
+    $el.click({ pageIdx }, onPageFilter)
+  })
+
+  pageNav.find(`[data-page-idx=${currPage}]`).addClass('active')
 }

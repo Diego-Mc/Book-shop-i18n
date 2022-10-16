@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,18 +16,374 @@
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="lib/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="css/main.css" />
     <title>Book Shop</title>
   </head>
   <body onload="onInit()">
-    <div class="app-container">
-      <button class="add-book-btn" onclick="onAddBookForm()">Add book</button>
-      <div class="filter-wrapper"></div>
+    <div
+      class="container pt-3 position-relative"
+      style="min-height: calc(100vh - 86px)"
+    >
+      <div class="d-flex flex-column gap-3 pb-4">
+        <h1 class="p-0 m-0 lh-1">Welcome to Diego's book shop</h1>
 
-      <div class="container"></div>
+        <!-- <button class="add-book-btn" onclick="onAddBookForm()">Add book</button> -->
+        <div class="filter-wrapper" hidden></div>
 
-      <nav class="page-nav"></nav>
+        <div
+          class="filter-container d-flex justify-content-between col-12 col-lg-10 col-xl-8 col-xxl-6 align-self-start gap-2 gap-md-3"
+        >
+          <input
+            type="checkbox"
+            class="btn-check"
+            id="view-btn"
+            autocomplete="off"
+          />
+          <label
+            class="btn btn-outline-primary d-flex flex-nowrap text-nowrap"
+            for="view-btn"
+            ><i class="bi bi-grid-fill"></i
+            ><span class="d-none d-md-block">&nbsp;&nbsp;Grid view</span></label
+          >
 
-      <div class="overlay"></div>
+          <input
+            type="radio"
+            class="btn-check"
+            name="options"
+            id="name"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-outline-primary text-nowrap" for="name">
+            <i class="bi bi-fonts"></i>
+            <i class="bi bi-caret-up-fill" hidden></i>
+            <i class="bi bi-caret-down-fill" hidden></i>
+            <span class="d-none d-sm-inline">&nbsp;Name</span>
+          </label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="options"
+            id="price"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary text-nowrap" for="price">
+            <i class="bi bi-currency-exchange"></i>
+            <i class="bi bi-caret-up-fill" hidden></i>
+            <i class="bi bi-caret-down-fill" hidden></i>
+            <span class="d-none d-sm-inline">&nbsp;Price</span>
+          </label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="options"
+            id="rate"
+            autocomplete="off"
+          />
+          <label class="btn btn-outline-primary text-nowrap" for="rate">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-caret-up-fill" hidden></i>
+            <i class="bi bi-caret-down-fill" hidden></i>
+            <span class="d-none d-sm-inline">&nbsp;Rate</span>
+          </label>
+
+          <input
+            class="form-control flex-grow-1"
+            style="width: 0"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </div>
+
+        <!-- Modal -->
+        <!-- class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true" -->
+
+        <!-- class="modal fade show"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-modal="true"
+        role="dialog"
+        style="display: block" -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Book Title
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div name="read-book" hidden>
+                <div class="modal-body">
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Dolorem itaque distinctio perspiciatis in culpa ipsam
+                    blanditiis sit fugit iste error fugiat tenetur earum,
+                    reiciendis recusandae incidunt facere dignissimos dolorum
+                    similique!
+                  </p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Dolorem itaque distinctio perspiciatis in culpa ipsam
+                    blanditiis sit fugit iste error fugiat tenetur earum,
+                    reiciendis recusandae incidunt facere dignissimos dolorum
+                    similique!
+                  </p>
+                </div>
+
+                <div class="modal-footer justify-content-start">
+                  <form>
+                    <div class="d-flex gap-2 justify-content-center">
+                      <label for="inputEmail3" class="col-form-label"
+                        >Rating:</label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text"
+                          ><i class="bi bi-plus"></i
+                        ></span>
+                        <span class="form-control" style="max-width: 42px"
+                          >10</span
+                        >
+                        <span class="input-group-text"
+                          ><i class="bi bi-dash"></i
+                        ></span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div name="add-book">
+                <div class="modal-body">
+                  <form
+                    class="d-flex justify-content-between flex-wrap"
+                    style="row-gap: var(--bs-modal-padding)"
+                  >
+                    <div class="col-7 flex-grow-1">
+                      <label for="inputEmail4" class="form-label"
+                        >Book Title:</label
+                      >
+                      <div class="input-group">
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          <i class="bi bi-type"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="inlineFormInputGroupUsername"
+                          placeholder="Title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-4 flex-grow-1 offset-1">
+                      <label for="inputEmail4" class="form-label"
+                        >Book Price:</label
+                      >
+                      <div class="input-group">
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          <i class="bi bi-coin"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="inlineFormInputGroupUsername"
+                          placeholder="50"
+                        />
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          $
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="inputEmail4" class="form-label"
+                        >Book ISBN:</label
+                      >
+
+                      <div class="input-group">
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          <i class="bi bi-upc-scan"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="inlineFormInputGroupUsername"
+                          placeholder="978-3-16-148410-0"
+                        />
+                      </div>
+                      <div class="valid-feedback d-block text-muted">
+                        ISBN is not required. will be used for cover image only.
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    Add Book
+                  </button>
+                </div>
+              </div>
+
+              <div name="delete-book" hidden>
+                <div class="modal-body">Are you sure?</div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-danger">Yes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="d-flex flex-wrap justify-content-between gap-4">
+            <div class="book-card position-relative p-0">
+              <div class="dropdown position-absolute end-0" style="z-index: 10">
+                <button
+                  class="btn dropdown-toggle btn-lg text-light border-0 mt-1"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu" style="min-width: fit-content">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      type="button"
+                    >
+                      <i class="bi bi-book"></i>&nbsp;&nbsp;Read
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      type="button"
+                    >
+                      <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Modify
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                      type="button"
+                    >
+                      <i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div class="card h-100">
+                <img
+                  src="images/book-cover.jpg"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div
+                  class="card-body d-flex flex-column justify-content-between gap-2"
+                >
+                  <h5 class="card-title d-inline-block text-nowrap w-100">
+                    Card title title title title
+                  </h5>
+                  <div
+                    class="fw-light text-muted d-flex w-100 justify-content-between"
+                  >
+                    <span class="book-price fw-normal lh-1">54$</span>
+                    <p class="d-inline-block lh-1">
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- START -->
+
+            <!-- END -->
+          </div>
+        </div>
+
+        <div class="container-1" hidden></div>
+
+        <nav class="page-nav" hidden></nav>
+
+        <div class="overlay" hidden></div>
+      </div>
+
+      <nav class="position-absolute top-100" name="page-nav">
+        <ul class="pagination m-0 mb-5">
+          <!-- <li class="page-item page-link prev-page disabled">&laquo;</li>
+          <li class="page-item page-link active">1</li>
+          <li class="page-item page-link">2</li>
+          <li class="page-item page-link">3</li>
+          <li class="page-item page-link next-page">&raquo;</li> -->
+        </ul>
+      </nav>
+
+      <button
+        class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-5"
+        style="width: 40px; height: 40px"
+      >
+        +
+      </button>
     </div>
 
     <script
@@ -36,6 +391,7 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"
     ></script>
+    <script src="lib/jquery.min.js"></script>
 
     <script src="js/book.controller.js"></script>
     <script src="js/services/utils.service.js"></script>

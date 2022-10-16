@@ -8,10 +8,6 @@ body {
   box-sizing: border-box;
 }
 
-.add-book-btn {
-  margin-bottom: 20px;
-}
-
 .filter-wrapper {
   display: flex;
   margin-bottom: 20px;
@@ -104,22 +100,6 @@ form h3 {
   justify-content: space-between;
 }
 
-.book-rate-card-circle {
-  background-color: #e4dcce;
-  font-weight: bold;
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  right: 0;
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-family: 'Lexend';
-  color: #1f2124;
-}
-
 .btns {
   display: flex;
   justify-content: center;
@@ -142,7 +122,7 @@ form h3 {
 
 /* ADDED */
 
-.book-rate-input {
+/* .book-rate-input {
   display: flex;
 }
 
@@ -157,7 +137,7 @@ form h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .page-nav {
   margin-top: 20px;
@@ -218,6 +198,9 @@ form h3 {
 /* .book-card p > span:last-of-type {
   color: #009aaa;
 } */
+.dropdown-menu {
+  transform: translate(-25px, 46px) !important;
+}
 
 .dropdown-toggle::after {
   display: none;
@@ -227,6 +210,7 @@ form h3 {
   cursor: pointer;
 }
 
-.disabled {
+.disabled,
+[disabled] {
   cursor: not-allowed;
 }

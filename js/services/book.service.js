@@ -87,9 +87,12 @@ function getBook(bookId) {
   return gBooks.find((book) => book.id === bookId)
 }
 
-function updateBook(bookId, newPrice) {
+function updateBook(bookId, newPrice, newISBN) {
   const book = getBook(bookId)
   book.price = newPrice
+  if (newISBN) {
+    book.imgUrl = `https://covers.openlibrary.org/b/isbn/${newISBN}-L.jpg`
+  }
   _saveBooksToStorage()
 }
 

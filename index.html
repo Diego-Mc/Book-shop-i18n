@@ -34,7 +34,8 @@
         <!-- <button class="add-book-btn" onclick="onAddBookForm()">Add book</button> -->
         <div class="filter-wrapper" hidden></div>
 
-        <div
+        <!-- Filter section -->
+        <section
           class="filter-container d-flex justify-content-between col-12 col-lg-10 col-xl-8 col-xxl-6 align-self-start gap-2 gap-md-3"
         >
           <input
@@ -109,31 +110,32 @@
             placeholder="Search"
             aria-label="Search"
           />
-        </div>
+        </section>
 
         <!-- Modal -->
         <!-- class="modal fade"
-        id="exampleModal"
+        id="modal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="modalLabel"
         aria-hidden="true" -->
 
         <!-- class="modal fade show"
-        id="exampleModal"
+        id="modal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="modalLabel"
         aria-modal="true"
         role="dialog"
         style="display: block" -->
         <div
           class="modal fade"
-          id="exampleModal"
+          id="modal"
           tabindex="-1"
-          aria-labelledby="exampleModalLabel"
+          aria-labelledby="modalLabel"
           aria-hidden="true"
         >
           <div class="modal-dialog">
             <div class="modal-content">
+              <!-- Modal head -->
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">
                   Book Title
@@ -145,15 +147,9 @@
                   aria-label="Close"
                 ></button>
               </div>
-              <div name="read-book" hidden>
+              <!-- Modal #1: Read book -->
+              <div class="modal-body-option" name="read-book">
                 <div class="modal-body">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolorem itaque distinctio perspiciatis in culpa ipsam
-                    blanditiis sit fugit iste error fugiat tenetur earum,
-                    reiciendis recusandae incidunt facere dignissimos dolorum
-                    similique!
-                  </p>
                   <p>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Dolorem itaque distinctio perspiciatis in culpa ipsam
@@ -170,31 +166,40 @@
                         >Rating:</label
                       >
                       <div class="input-group">
-                        <span class="input-group-text"
-                          ><i class="bi bi-plus"></i
-                        ></span>
-                        <span class="form-control" style="max-width: 42px"
+                        <button
+                          class="input-group-text d-inline-block book-rate-plus"
+                          style="width: 42px"
+                          type="button"
+                        >
+                          <i class="bi bi-plus"></i>
+                        </button>
+                        <span
+                          class="form-control d-flex justify-content-center"
+                          name="book-rate"
+                          style="width: 42px"
                           >10</span
                         >
-                        <span class="input-group-text"
-                          ><i class="bi bi-dash"></i
-                        ></span>
+                        <button
+                          class="input-group-text d-inline-block book-rate-minus"
+                          style="width: 42px"
+                          type="button"
+                        >
+                          <i class="bi bi-dash"></i>
+                        </button>
                       </div>
                     </div>
                   </form>
                 </div>
               </div>
-
-              <div name="add-book">
+              <!-- Modal #2: Create book -->
+              <div class="modal-body-option" name="create-book">
                 <div class="modal-body">
                   <form
                     class="d-flex justify-content-between flex-wrap"
                     style="row-gap: var(--bs-modal-padding)"
                   >
                     <div class="col-7 flex-grow-1">
-                      <label for="inputEmail4" class="form-label"
-                        >Book Title:</label
-                      >
+                      <label class="form-label">Book Title:</label>
                       <div class="input-group">
                         <div
                           class="input-group-text d-flex justify-content-center"
@@ -204,16 +209,13 @@
                         </div>
                         <input
                           type="text"
-                          class="form-control"
-                          id="inlineFormInputGroupUsername"
+                          class="form-control title-input"
                           placeholder="Title"
                         />
                       </div>
                     </div>
                     <div class="col-4 flex-grow-1 offset-1">
-                      <label for="inputEmail4" class="form-label"
-                        >Book Price:</label
-                      >
+                      <label class="form-label">Book Price:</label>
                       <div class="input-group">
                         <div
                           class="input-group-text d-flex justify-content-center"
@@ -223,8 +225,7 @@
                         </div>
                         <input
                           type="text"
-                          class="form-control"
-                          id="inlineFormInputGroupUsername"
+                          class="form-control price-input"
                           placeholder="50"
                         />
                         <div
@@ -236,9 +237,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <label for="inputEmail4" class="form-label"
-                        >Book ISBN:</label
-                      >
+                      <label class="form-label">Book ISBN:</label>
 
                       <div class="input-group">
                         <div
@@ -249,8 +248,7 @@
                         </div>
                         <input
                           type="text"
-                          class="form-control"
-                          id="inlineFormInputGroupUsername"
+                          class="form-control isbn-input"
                           placeholder="978-3-16-148410-0"
                         />
                       </div>
@@ -268,13 +266,17 @@
                   >
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary">
+                  <button
+                    type="button"
+                    data-bs-dismiss="modal"
+                    class="btn btn-primary add-book-btn"
+                  >
                     Add Book
                   </button>
                 </div>
               </div>
-
-              <div name="delete-book" hidden>
+              <!-- Modal #3: Delete book -->
+              <div class="modal-body-option" name="delete-book">
                 <div class="modal-body">Are you sure?</div>
                 <div class="modal-footer">
                   <button
@@ -284,16 +286,96 @@
                   >
                     Close
                   </button>
-                  <button type="button" class="btn btn-danger">Yes</button>
+
+                  <button
+                    type="button"
+                    data-bs-dismiss="modal"
+                    class="delete-book-btn btn btn-danger"
+                  >
+                    Yes
+                  </button>
+                </div>
+              </div>
+              <!-- Modal #4: Update book -->
+              <div class="modal-body-option" name="update-book">
+                <div class="modal-body">
+                  <form
+                    class="d-flex justify-content-between flex-wrap"
+                    style="row-gap: var(--bs-modal-padding)"
+                  >
+                    <div class="col-3 flex-grow-1">
+                      <label class="form-label">Book Price:</label>
+                      <div class="input-group">
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          <i class="bi bi-coin"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control price-input"
+                          placeholder="50"
+                        />
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          $
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-5 flex-grow-1 offset-1">
+                      <label class="form-label">Book ISBN:</label>
+
+                      <div class="input-group">
+                        <div
+                          class="input-group-text d-flex justify-content-center"
+                          style="width: 40px"
+                        >
+                          <i class="bi bi-upc-scan"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control isbn-input"
+                          placeholder="978-3-16-148410-0"
+                        />
+                      </div>
+                      <div class="valid-feedback d-block text-muted">
+                        ISBN is not required. will be used for cover image only.
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    data-bs-dismiss="modal"
+                    class="btn btn-primary update-book-btn"
+                  >
+                    Update Book
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Books container -->
         <div class="container">
-          <div class="d-flex flex-wrap justify-content-between gap-4">
+          <div
+            class="d-flex flex-wrap book-cards justify-content-between gap-4"
+          >
+            <!-- Book cards -->
             <div class="book-card position-relative p-0">
+              <!-- Dropdown options -->
               <div class="dropdown position-absolute end-0" style="z-index: 10">
                 <button
                   class="btn dropdown-toggle btn-lg text-light border-0 mt-1"
@@ -306,9 +388,9 @@
                 <ul class="dropdown-menu" style="min-width: fit-content">
                   <li>
                     <button
-                      class="dropdown-item"
+                      class="dropdown-item read-option"
                       data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
+                      data-bs-target="#modal"
                       type="button"
                     >
                       <i class="bi bi-book"></i>&nbsp;&nbsp;Read
@@ -316,9 +398,9 @@
                   </li>
                   <li>
                     <button
-                      class="dropdown-item"
+                      class="dropdown-item modify-option"
                       data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
+                      data-bs-target="#modal"
                       type="button"
                     >
                       <i class="bi bi-pencil-square"></i>&nbsp;&nbsp;Modify
@@ -326,9 +408,9 @@
                   </li>
                   <li>
                     <button
-                      class="dropdown-item"
+                      class="dropdown-item delete-option"
                       data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
+                      data-bs-target="#modal"
                       type="button"
                     >
                       <i class="bi bi-trash3"></i>&nbsp;&nbsp;Delete
@@ -336,6 +418,7 @@
                   </li>
                 </ul>
               </div>
+              <!-- Card -->
               <div class="card h-100">
                 <img
                   src="images/book-cover.jpg"
@@ -352,7 +435,7 @@
                     class="fw-light text-muted d-flex w-100 justify-content-between"
                   >
                     <span class="book-price fw-normal lh-1">54$</span>
-                    <p class="d-inline-block lh-1">
+                    <p class="d-flex gap-1 lh-1 book-stars">
                       <i class="bi bi-star"></i>
                       <i class="bi bi-star"></i>
                       <i class="bi bi-star"></i>
@@ -378,17 +461,13 @@
       </div>
 
       <nav class="position-absolute top-100" name="page-nav">
-        <ul class="pagination m-0 mb-5">
-          <!-- <li class="page-item page-link prev-page disabled">&laquo;</li>
-          <li class="page-item page-link active">1</li>
-          <li class="page-item page-link">2</li>
-          <li class="page-item page-link">3</li>
-          <li class="page-item page-link next-page">&raquo;</li> -->
-        </ul>
+        <ul class="pagination m-0 mb-5"></ul>
       </nav>
 
       <button
-        class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-5"
+        class="btn btn-primary book-add rounded-circle position-fixed bottom-0 end-0 m-5"
+        data-bs-toggle="modal"
+        data-bs-target="#modal"
         style="width: 40px; height: 40px"
       >
         +

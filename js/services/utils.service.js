@@ -8,13 +8,57 @@ function generateId() {
   return 'id' + Math.random().toString(32).slice(2)
 }
 
-function generateLoremArr(sentencesAmount = 1) {
-  var loremArr = []
-  while (sentencesAmount > 0) {
-    loremArr.push('lorem '.repeat(getRandomInt(12, 36)).trim() + '.')
-    sentencesAmount--
+function getLorem() {
+  var words = [
+      'the sky',
+      'above',
+      'the port',
+      'was',
+      'the color of television',
+      'tuned',
+      'to',
+      'a dead channel',
+      'all',
+      'this happened',
+      'more or less',
+      'I',
+      'had',
+      'the story',
+      'bit by bit',
+      'from various people',
+      'and',
+      'as generally',
+      'happens',
+      'in such cases',
+      'each time',
+      'it',
+      'was',
+      'a different story',
+      'it',
+      'was',
+      'a pleasure',
+      'to',
+      'burn',
+    ],
+    punctuation = ['.', ','],
+    text = '',
+    phrase,
+    punc,
+    count = 0,
+    nextCapital = true
+  while (count < 250) {
+    phrase = words[Math.floor(Math.random() * words.length)]
+    text += nextCapital ? phrase[0].toUpperCase() + phrase.slice(1) : phrase
+    nextCapital = false
+    if (Math.random() > 0.8) {
+      punc = punctuation[Math.floor(Math.random() * punctuation.length)]
+      if (punc === '.') nextCapital = true
+      text += punc
+    }
+    text += ' '
+    count = text.match(/\S+/g).length
   }
-  return loremArr
+  return text
 }
 
 function getRandomInt(min, max) {

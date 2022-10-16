@@ -101,7 +101,7 @@ function createBook(name, price, ISBN) {
     id: generateId(),
     name,
     price,
-    imgUrl: `https://covers.openlibrary.org/b/isbn/${ISBN}-L.jpg`,
+    imgUrl: ISBN ? `https://covers.openlibrary.org/b/isbn/${ISBN}-L.jpg` : '',
     rate: 0,
   }
   gBooks.push(book)

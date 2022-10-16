@@ -3,8 +3,6 @@
 var gView
 const VIEW_STORAGE_KEY = 'favlayout'
 
-function addIcons() {}
-
 function onInit() {
   gView = getFromStorage(VIEW_STORAGE_KEY) || 'cards'
 
@@ -23,6 +21,10 @@ function onInit() {
   $('.searchbar').keyup(onSearch)
   $('.book-add').click(onAddBook)
 
+  $('.lang-he').click(() => changeLang('he'))
+  $('.lang-en').click(() => changeLang('en'))
+  $('.lang-es').click(() => changeLang('es'))
+
   // <input
   //         onkeyup="onSearch({search: this.value},this)"
 
@@ -35,12 +37,17 @@ function onInit() {
 }
 
 function renderBooks() {
+  $('.book-view-type').addClass('d-none')
+
   if (gView === 'cards') _renderCards()
   else _renderTable()
+
+  $(`.book-${gView}`).removeClass('d-none')
+  _setBooksOptionsListener()
 }
 
-function onSetView(el) {
-  gView = el.data.view
+function onSetView(ev) {
+  gView = ev.data.view
   saveToStorage(VIEW_STORAGE_KEY, gView)
   renderBooks()
   _updateFilters()
@@ -75,69 +82,179 @@ function saveToQuery(obj) {
   history.pushState({ path: newUrl }, '', newUrl)
 }
 
-function _renderTable() {
-  const books = getBooks()
-
-  const tbodyHTML = books
-    .map(
-      (book) =>
-        `<tr>` +
-        `<td>${book.id}</td>` +
-        `<td>${book.name}</td>` +
-        `<td>${book.price}</td>` +
-        `<td><button onclick="onRead('${book.id}')">Read</button></td>` +
-        `<td><button onclick="onUpdateForm('${book.id}')">Update</button></td>` +
-        `<td><button onclick="onDelete('${book.id}')">Delete</button></td>` +
-        `<tr>`
-    )
-    .join('')
-
-  const tableHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th onclick="onFilter({filter: 'name'})">Title</th>
-          <th onclick="onFilter({filter: 'price'})">Price</th>
-          <th colspan="3">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${tbodyHTML}
-      </tbody>
-    </table>
-  `
-
-  document.querySelector('.container-1').innerHTML = tableHTML
-}
-
 function _renderCards() {
   const books = getBooks()
 
-  const cardViewHTML = `
-  <section class="card-view">
-    ${books
-      .map(
-        (book) =>
-          `<div class="book-card"
-          style="background-image:url('${book.imgUrl}'">` +
-          `<span class="book-rate-card-circle">${book.rate}</span>` +
-          `<div class="btns">` +
-          `<button onclick="onRead('${book.id}')">Read</button>` +
-          `<button onclick="onUpdateForm('${book.id}')">Update</button>` +
-          `<button onclick="onDelete('${book.id}')">Delete</button>` +
-          `</div>` +
-          `<p><span>${book.name}</span> - <span>${book.price}$</span></p>` +
-          `</div>`
-      )
-      .join('')}
-  </section>
-  `
-  $('.read-option').click({ bookId: books[0].id }, onRead)
-  $('.modify-option').click({ bookId: books[0].id }, onUpdate)
-  $('.delete-option').click({ bookId: books[0].id }, onDelete)
+  const bookCardHTMLs = books.map((book) => _renderCard(book.id))
+  $('.book-cards').html(bookCardHTMLs)
+}
 
-  document.querySelector('.container-1').innerHTML = cardViewHTML
+function _setBooksOptionsListener() {
+  _setBookOptionsListener('read', onRead)
+  _setBookOptionsListener('update', onUpdate)
+  _setBookOptionsListener('delete', onDelete)
+}
+
+function _setBookOptionsListener(crudStr, cb) {
+  $(`.${crudStr}-option`).each(function () {
+    $(this)
+      .off('click')
+      .click({ bookId: $(this).closest('.book-element').data('id') }, cb)
+  })
+}
+
+function _renderCard(bookId) {
+  const cardHTML = `
+  <div data-id="${bookId}" class="book-card book-element position-relative p-0">
+    ${_getBookOptionsHTML()}
+    ${_getBookCardHTML(bookId)}
+  </div>`
+
+  return cardHTML
+}
+
+function _renderTable() {
+  const books = getBooks()
+  const rowsHTMLs = books.map((book) => _renderRow(book.id))
+  $('.book-rows').html(rowsHTMLs)
+}
+
+function _renderRow(bookId) {
+  const book = getBook(bookId)
+  const rowHTML = `
+              <tr data-id="${bookId}" class="book-element">
+                <th scope="row">${book.name}</th>
+                <td>${book.price}</td>
+                <td>${book.rate}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary read-option custom-sm-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal"
+                  >
+                    <i class="bi bi-book"></i>
+                    <span data-trans="read" class="ms-1">
+                      ${getTrans('read')}
+                    </span>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary update-option custom-sm-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                    <span data-trans="update" class="ms-1">
+                      ${getTrans('update')}
+                    </span>
+                  </button>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger delete-option custom-sm-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal"
+                  >
+                    <i class="bi bi-trash3"></i>
+                    <span data-trans="delete" class="ms-1">
+                      ${getTrans('delete')}
+                    </span>
+                  </button>
+                </td>
+              </tr>`
+  return rowHTML
+}
+
+function _getBookOptionsHTML() {
+  return `
+              <!-- Dropdown options -->
+              <div class="dropdown position-absolute end-0" style="z-index: 10">
+                <button
+                  class="btn dropdown-toggle btn-lg text-light border-0 mt-1"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu" style="min-width: fit-content">
+                  <li>
+                    <button
+                      class="dropdown-item read-option"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                      type="button"
+                    >
+                      <i class="bi bi-book"></i>
+                      <span data-trans="read" class="ms-1">
+                        ${getTrans('read')}
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item update-option"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                      type="button"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                      <span data-trans="update" class="ms-1">
+                        ${getTrans('update')}
+                      </span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item delete-option"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modal"
+                      type="button"
+                    >
+                      <i class="bi bi-trash3"></i>
+                      <span data-trans="delete" class="ms-1">
+                        ${getTrans('delete')}
+                      </span>
+                    </button>
+                  </li>
+                </ul>
+              </div>`
+}
+
+function _getBookCardHTML(bookId) {
+  const book = getBook(bookId)
+  return `
+              <!-- Card -->
+              <div class="card h-100">
+                <img
+                  src="${book.imgUrl || 'images/book-cover.jpg'}"
+                  style="height: 280px"
+                  class="card-img-top"
+                  alt="${book.name}"
+                />
+                <div
+                  class="card-body d-flex flex-column justify-content-between gap-2"
+                >
+                  <h5 class="card-title d-inline-block text-nowrap w-100">
+                    ${book.name}
+                  </h5>
+                  <div
+                    class="fw-light text-muted d-flex w-100 justify-content-between"
+                  >
+                    <span class="book-price fw-normal lh-1">
+                    ${book.price}
+                    <span>$</span>
+                    </span>
+                    <p class="d-flex gap-1 lh-1 book-stars">
+                      ${_getStarsHTML(book.rate)}
+                    </p>
+                  </div>
+                </div>
+              </div>`
 }
 
 function _showModalByCrudType(modalType) {
@@ -170,8 +287,6 @@ function _getStarsHTML(rate) {
   const filledAmount = parseInt(starsRate)
   const halfAmount = Number.isInteger(starsRate) ? 0 : 1
   const emptyAmount = parseInt(5 - filledAmount - halfAmount)
-
-  console.log(filledAmount, halfAmount, emptyAmount)
 
   return (
     starFull.repeat(filledAmount) +
@@ -254,8 +369,11 @@ function onAddBook() {
   const $titleInput = $modal.find('.title-input').val('')
   const $priceInput = $modal.find('.price-input').val('')
   const $isbnInput = $modal.find('.isbn-input').val('')
+  const defaultHeader = getTrans('book-title', getLang())
 
-  $titleInput.keyup(() => _setModalHeader($titleInput.val() || 'New Book'))
+  $titleInput
+    .off('keyup')
+    .keyup(() => _setModalHeader($titleInput.val() || defaultHeader))
 
   $modal
     .find('.add-book-btn')
@@ -266,12 +384,12 @@ function onAddBook() {
       const isbn = $isbnInput.val().trim()
       if (!title) return
 
-      updateBook(title, price, isbn)
+      createBook(title, price, isbn)
       renderBooks()
       _renderPageNav()
     })
 
-  _setModalHeader('New Book')
+  _setModalHeader(defaultHeader)
   _showModalByCrudType('create')
 }
 
@@ -280,7 +398,8 @@ function _updateFilters() {
 
   $('#view-btn')
     .prop('checked', gView === 'cards')
-    .on('change', { view: gView === 'cards' ? 'table' : 'cards' }, onSetView)
+    .off('change')
+    .change({ view: gView === 'cards' ? 'table' : 'cards' }, onSetView)
 
   $('.filter-btn .bi').hide()
   $('.filter-btn .icon').show()

@@ -10,12 +10,20 @@ function onInit() {
 
   const queryParams = new URLSearchParams(location.search)
   const filterObj = {
-    filter: queryParams.get('filter') || '',
+    by: queryParams.get('by') || '',
     dir: +queryParams.get('dir') || 1,
     search: queryParams.get('search') || '',
     pageIdx: +queryParams.get('pageIdx') || 0,
   }
   setFilter(filterObj)
+
+  $('#name-filter').click({ by: 'name' }, onFilter)
+  $('#price-filter').click({ by: 'price' }, onFilter)
+  $('#rate-filter').click({ by: 'rate' }, onFilter)
+  $('.searchbar').keyup(onSearch)
+
+  // <input
+  //         onkeyup="onSearch({search: this.value},this)"
 
   if (queryParams.get('opened-book')) onRead(queryParams.get('opened-book'))
 
@@ -36,15 +44,15 @@ function onSetView(el) {
   _updateFilters()
 }
 
-function onFilter(filterObj) {
-  filterObj = setFilter(filterObj)
+function onFilter(ev) {
+  const filterObj = setFilter(ev.data)
   saveToQuery(filterObj)
   renderBooks()
   _updateFilters()
 }
 
-function onSearch(searchObj, el) {
-  searchObj = setFilter(searchObj)
+function onSearch() {
+  const searchObj = setFilter({ search: this.value })
   saveToQuery(searchObj)
   renderBooks()
 }
@@ -243,76 +251,24 @@ const _addOverlay = (html) => `
     </div>
 `
 
-function onCloseOverlay(el) {
-  el.parentElement.innerHTML = ''
-  saveToQuery({ 'opened-book': '' })
-}
 function _updateFilters() {
   const filter = getFilter()
-  var filterHTML = `
-        <div class="view-btn-container">
-          <button
-            onclick="onSetView('cards')"
-            class="view-btn ${gView === 'cards' ? 'checked' : ''}"
-            name="cards"
-            >
-            <img
-            class="${gView === 'cards' ? 'checked' : ''}"
-            src="images/icons/grid-alt.svg"/>
-          </button>
-          <button
-            onclick="onSetView('table')"
-            class="view-btn ${gView === 'table' ? 'checked' : ''}"
-            name="table"
-            >
-            <img
-            class="${gView === 'table' ? 'checked' : ''}"
-            src="images/icons/list.svg"/>
-          </button>
-        </div>
-`
+
   $('#view-btn')
     .prop('checked', gView === 'cards')
     .on('change', { view: gView === 'cards' ? 'table' : 'cards' }, onSetView)
 
-  filterHTML += `
-        <button
-          onclick="onFilter({filter: 'name'})"
-          class="name-filter filter-btn ${
-            filter.filter === 'name' ? 'selected' : ''
-          }"
-          name="name"
-        >
-          name ${filter.filter === 'name' ? (filter.dir === 1 ? '>' : '<') : ''}
-        </button>
-        <button
-          onclick="onFilter({filter: 'price'})"
-          class="price-filter filter-btn ${
-            filter.filter === 'price' ? 'selected' : ''
-          }"
-          name="price"
-        >
-          price ${
-            filter.filter === 'price' ? (filter.dir === 1 ? '>' : '<') : ''
-          }
-        </button>
-        <button
-          onclick="onFilter({filter: 'rate'})"
-          class="rate-filter filter-btn ${
-            filter.filter === 'rate' ? 'selected' : ''
-          }"
-          name="rate"
-        >
-          rate ${filter.filter === 'rate' ? (filter.dir === 1 ? '>' : '<') : ''}
-        </button>
-        <input
-          onkeyup="onSearch({search: this.value},this)"
-          class="searchbar"
-          type="text"
-          placeholder="Search..."
-          value="${filter.search}"
-        />`
-  document.querySelector('.filter-wrapper').innerHTML = filterHTML
+  $('.filter-btn .bi').hide()
+  $('.filter-btn .icon').show()
+
+  const $filter = $(`#${filter.by}-filter`)
+  const $input = $filter.next()
+
+  $filter.prop('checked', true)
+  $input.find('.bi').hide()
+  $input.find(`.bi-caret-${filter.dir === 1 ? 'up' : 'down'}-fill`).show()
+
+  $('.searchbar').val(filter.search)
 }
 
 function _renderPageNav() {

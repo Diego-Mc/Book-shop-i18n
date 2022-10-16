@@ -61,8 +61,8 @@ function getBooks() {
     .filter((book) => new RegExp(gFilters.search, 'i').test(book.name))
     .sort((b1, b2) => {
       var compVal
-      if (gFilters.filter === 'name') compVal = b1.name.localeCompare(b2.name)
-      else compVal = b1[gFilters.filter] - b2[gFilters.filter]
+      if (gFilters.by === 'name') compVal = b1.name.localeCompare(b2.name)
+      else compVal = b1[gFilters.by] - b2[gFilters.by]
       return compVal * gFilters.dir
     })
 
@@ -73,8 +73,8 @@ function getBooks() {
 
 function setFilter(filterObj) {
   Object.keys(filterObj).forEach((key) => (gFilters[key] = filterObj[key]))
-  if (filterObj.filter && !filterObj.dir) {
-    gFilters.dir = gFilters.filter === filterObj.filter ? gFilters.dir * -1 : 1
+  if (filterObj.by && !filterObj.dir) {
+    gFilters.dir = gFilters.by === filterObj.by ? gFilters.dir * -1 : 1
   }
   return gFilters
 }

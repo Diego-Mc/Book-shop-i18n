@@ -54,14 +54,17 @@
             type="radio"
             class="btn-check"
             name="options"
-            id="name"
+            id="name-filter"
             autocomplete="off"
             checked
           />
-          <label class="btn btn-outline-primary text-nowrap" for="name">
-            <i class="bi bi-fonts"></i>
-            <i class="bi bi-caret-up-fill" hidden></i>
-            <i class="bi bi-caret-down-fill" hidden></i>
+          <label
+            class="btn btn-outline-primary filter-btn text-nowrap"
+            for="name-filter"
+          >
+            <i class="bi icon bi-fonts"></i>
+            <i class="bi bi-caret-up-fill"></i>
+            <i class="bi bi-caret-down-fill"></i>
             <span class="d-none d-sm-inline">&nbsp;Name</span>
           </label>
 
@@ -69,13 +72,16 @@
             type="radio"
             class="btn-check"
             name="options"
-            id="price"
+            id="price-filter"
             autocomplete="off"
           />
-          <label class="btn btn-outline-primary text-nowrap" for="price">
-            <i class="bi bi-currency-exchange"></i>
-            <i class="bi bi-caret-up-fill" hidden></i>
-            <i class="bi bi-caret-down-fill" hidden></i>
+          <label
+            class="btn btn-outline-primary filter-btn text-nowrap"
+            for="price-filter"
+          >
+            <i class="bi icon bi-currency-exchange"></i>
+            <i class="bi bi-caret-up-fill"></i>
+            <i class="bi bi-caret-down-fill"></i>
             <span class="d-none d-sm-inline">&nbsp;Price</span>
           </label>
 
@@ -83,18 +89,21 @@
             type="radio"
             class="btn-check"
             name="options"
-            id="rate"
+            id="rate-filter"
             autocomplete="off"
           />
-          <label class="btn btn-outline-primary text-nowrap" for="rate">
-            <i class="bi bi-star-fill"></i>
-            <i class="bi bi-caret-up-fill" hidden></i>
-            <i class="bi bi-caret-down-fill" hidden></i>
+          <label
+            class="btn btn-outline-primary filter-btn text-nowrap"
+            for="rate-filter"
+          >
+            <i class="bi icon bi-star-fill"></i>
+            <i class="bi bi-caret-up-fill"></i>
+            <i class="bi bi-caret-down-fill"></i>
             <span class="d-none d-sm-inline">&nbsp;Rate</span>
           </label>
 
           <input
-            class="form-control flex-grow-1"
+            class="form-control searchbar flex-grow-1"
             style="width: 0"
             type="search"
             placeholder="Search"

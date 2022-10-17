@@ -20,9 +20,9 @@ function onInit() {
   const state = queryParams.get('state') || 'us'
   setLang(state)
 
-  $('#name-filter').click({ by: 'name' }, onFilter)
-  $('#price-filter').click({ by: 'price' }, onFilter)
-  $('#rate-filter').click({ by: 'rate' }, onFilter)
+  $('.filter-btn-name').click({ by: 'name' }, onFilter)
+  $('.filter-btn-price').click({ by: 'price' }, onFilter)
+  $('.filter-btn-rate').click({ by: 'rate' }, onFilter)
   $('.searchbar').keyup(onSearch)
   $('.book-add').click(onAddBook)
 
@@ -66,8 +66,13 @@ function _renderLangPicker() {
 function renderBooks() {
   $('.book-view-type').addClass('d-none')
 
-  if (gView === 'cards') _renderCards()
-  else _renderTable()
+  if (gView === 'cards') {
+    _renderCards()
+    $('label.filter-btn').show()
+  } else {
+    _renderTable()
+    $('label.filter-btn').hide()
+  }
 
   $(`.book-${gView}`).removeClass('d-none')
   _setBooksOptionsListener()
@@ -446,7 +451,7 @@ function _updateFilters() {
   $('.filter-btn .icon').show()
 
   const $filter = $(`#${filter.by}-filter`)
-  const $input = $filter.next()
+  const $input = $(`.filter-btn-${filter.by}`)
 
   $filter.prop('checked', true)
   $input.find('.bi').hide()

@@ -8,10 +8,6 @@
   margin-left: 0 !important;
 }
 
-/* .lang-menu {
-  transform: translate(-4px, 35px) !important;
-} */
-
 .offset-1 {
   margin-left: 0;
 }
@@ -46,14 +42,6 @@
   direction: ltr;
   flex-direction: row-reverse;
 }
-
-header {
-  /* direction: ltr; */
-}
-
-/* .dropdown-menu:not(.lang-menu) {
-  transform: translate(126px, 52px) !important;
-} */
 
 .rate-book-group {
   flex-direction: row-reverse !important;

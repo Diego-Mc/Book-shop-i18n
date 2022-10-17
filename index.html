@@ -29,7 +29,7 @@
     />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" class="rtl-fixes" href="" />
-    <title>Book Shop</title>
+    <title data-trans="website-title">Book Shop</title>
   </head>
   <body>
     <div
@@ -96,13 +96,14 @@
             name="options"
             id="name-filter"
             autocomplete="off"
-            checked
           />
-          <label class="btn btn-light filter-btn text-nowrap" for="name-filter">
+          <label
+            class="btn btn-light filter-btn filter-btn-name text-nowrap"
+            for="name-filter"
+          >
             <i class="bi icon bi-fonts"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
-            <!-- <span data-trans="name" class="d-none d-md-inline ms-1">Name</span> -->
             <span data-trans="name" class="d-inline ms-1">Name</span>
           </label>
 
@@ -114,15 +115,12 @@
             autocomplete="off"
           />
           <label
-            class="btn btn-light filter-btn text-nowrap"
+            class="btn btn-light filter-btn filter-btn-price text-nowrap"
             for="price-filter"
           >
             <i class="bi icon bi-currency-exchange"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
-            <!-- <span class="d-none d-md-inline ms-1" data-trans="price"
-              >Price</span
-            > -->
             <span class="d-inline ms-1" data-trans="price">Price</span>
           </label>
 
@@ -133,17 +131,19 @@
             id="rate-filter"
             autocomplete="off"
           />
-          <label class="btn btn-light filter-btn text-nowrap" for="rate-filter">
+          <label
+            class="btn btn-light filter-btn filter-btn-rate text-nowrap"
+            for="rate-filter"
+          >
             <i class="bi icon bi-star-fill"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
-            <!-- <span class="d-none d-md-inline ms-1" data-trans="rate">Rate</span> -->
             <span class="d-inline ms-1" data-trans="rate">Rate</span>
           </label>
 
           <input
-            class="form-control searchbar bg-light w-100 flex-grow-1"
-            style="width: 0"
+            class="form-control searchbar bg-light w-sm-100 flex-grow-1"
+            style="width: 50vw"
             type="search"
             placeholder="Search"
             aria-label="Search"
@@ -151,20 +151,6 @@
           />
         </section>
 
-        <!-- Modal -->
-        <!-- class="modal fade"
-        id="modal"
-        tabindex="-1"
-        aria-labelledby="modalLabel"
-        aria-hidden="true" -->
-
-        <!-- class="modal fade show"
-        id="modal"
-        tabindex="-1"
-        aria-labelledby="modalLabel"
-        aria-modal="true"
-        role="dialog"
-        style="display: block" -->
         <div
           class="modal fade"
           id="modal"
@@ -189,13 +175,7 @@
               <!-- Modal #1: Read book -->
               <div class="modal-body-option" name="read-book">
                 <div class="modal-body">
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Dolorem itaque distinctio perspiciatis in culpa ipsam
-                    blanditiis sit fugit iste error fugiat tenetur earum,
-                    reiciendis recusandae incidunt facere dignissimos dolorum
-                    similique!
-                  </p>
+                  <p></p>
                 </div>
 
                 <div class="modal-footer justify-content-start">
@@ -446,9 +426,21 @@
           >
             <thead>
               <tr class="table-dark">
-                <th scope="col" data-trans="title">Title</th>
-                <th scope="col" data-trans="price">Price</th>
-                <th scope="col" data-trans="rate">Rate</th>
+                <th scope="col" class="filter-row filter-btn filter-btn-name">
+                  <span data-trans="title">Title</span>
+                  <i class="bi bi-caret-up-fill"></i>
+                  <i class="bi bi-caret-down-fill"></i>
+                </th>
+                <th scope="col" class="filter-row filter-btn filter-btn-price">
+                  <span data-trans="price">Price</span>
+                  <i class="bi bi-caret-up-fill"></i>
+                  <i class="bi bi-caret-down-fill"></i>
+                </th>
+                <th scope="col" class="filter-row filter-btn filter-btn-rate">
+                  <span data-trans="rate">Rate</span>
+                  <i class="bi bi-caret-up-fill"></i>
+                  <i class="bi bi-caret-down-fill"></i>
+                </th>
                 <th colspan="3" scope="col" data-trans="options">Options</th>
               </tr>
             </thead>
@@ -457,6 +449,7 @@
         </div>
       </div>
 
+      <!-- Pagination -->
       <nav
         class="position-absolute top-100 start-50 translate-middle-x"
         name="page-nav"
@@ -464,6 +457,7 @@
         <ul class="pagination m-0 mb-5"></ul>
       </nav>
 
+      <!-- Add button -->
       <button
         class="btn btn-dark book-add rounded-circle position-fixed bottom-0 end-0 mb-5 me-4 me-sm-5 d-flex justify-content-center align-items-center"
         data-bs-toggle="modal"

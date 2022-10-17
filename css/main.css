@@ -229,6 +229,10 @@ input {
   --bs-dropdown-link-active-bg: #212529;
 }
 
+.filter-row {
+  cursor: pointer;
+}
+
 @media (max-width: 576px) {
   .book-view-type {
     transform: translate(-1.5rem, 0);

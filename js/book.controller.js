@@ -1,5 +1,7 @@
 'use strict'
 
+$(onInit)
+
 var gView
 const VIEW_STORAGE_KEY = 'favlayout'
 
@@ -15,25 +17,47 @@ function onInit() {
   }
   setFilter(filterObj)
 
+  const state = queryParams.get('state') || 'us'
+  setLang(state)
+
   $('#name-filter').click({ by: 'name' }, onFilter)
   $('#price-filter').click({ by: 'price' }, onFilter)
   $('#rate-filter').click({ by: 'rate' }, onFilter)
   $('.searchbar').keyup(onSearch)
   $('.book-add').click(onAddBook)
 
-  $('.lang-he').click(() => changeLang('he'))
-  $('.lang-en').click(() => changeLang('en'))
-  $('.lang-es').click(() => changeLang('es'))
-
-  // <input
-  //         onkeyup="onSearch({search: this.value},this)"
-
-  //TODO: fix open modal
-  // if (queryParams.get('opened-book')) onRead(queryParams.get('opened-book'))
-
-  renderBooks()
+  _renderLangPicker()
   _updateFilters()
   _renderPageNav()
+  renderBooks()
+
+  const openedBookId = queryParams.get('opened-book')
+  if (openedBookId) {
+    $(`[data-id=${openedBookId}]`).find('.read-option').trigger('click')
+  }
+
+  //Observe class change in body to know if user closed the modal
+  const modalObserver = new MutationObserver(() => {
+    if ($('body').hasClass('modal-open')) return
+    saveToQuery({ 'opened-book': '' })
+  })
+  modalObserver.observe($('body').get()[0], { attributes: true })
+}
+
+function _renderLangPicker() {
+  const state = getStates()
+  const langOptionsHTMLs = state.map(
+    (state) => `<li class="dropdown-item lang-item lang-${state}">
+                <img src="images/flags/${state}.svg" alt="${state}" />
+                <span class="text-uppercase">${state}</span>
+               </li>`
+  )
+
+  $('.lang-menu').html(langOptionsHTMLs)
+
+  state.forEach((state) => {
+    $(`.lang-${state}`).click(() => setLang(state))
+  })
 }
 
 function renderBooks() {
@@ -266,6 +290,7 @@ function _showModalByCrudType(modalType) {
 }
 
 function _$setDir() {
+  // sets the direction of inputs based on value entered
   setDirection($(this))
 }
 
@@ -376,7 +401,7 @@ function onAddBook() {
   const $titleInput = $modal.find('.title-input').val('')
   const $priceInput = $modal.find('.price-input').val('')
   const $isbnInput = $modal.find('.isbn-input').val('')
-  const defaultHeader = getTrans('book-title', getLang())
+  const defaultHeader = getTrans('book-title', getCurrLang())
 
   $titleInput
     .off('keyup')

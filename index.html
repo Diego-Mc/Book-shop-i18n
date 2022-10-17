@@ -31,7 +31,7 @@
     <link rel="stylesheet" class="rtl-fixes" href="" />
     <title>Book Shop</title>
   </head>
-  <body onload="onInit()">
+  <body>
     <div
       class="container pt-3 position-relative"
       style="min-height: calc(100vh - 86px)"
@@ -434,30 +434,19 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <span class="curr-selected-lang d-flex align-items-center gap-2">
-            <img src="images/flags/il.svg" alt="" />
-            <span>IL</span>
+          <span
+            class="curr-selected-lang text-uppercase d-flex align-items-center gap-2"
+          >
+            <img src="images/flags/us.svg" alt="" />
+            <span>US</span>
           </span>
           <i class="bi bi-caret-down-fill"></i>
         </button>
         <ul
-          class="dropdown-menu dropdown-menu-light lang-menu-wrapper"
+          class="dropdown-menu dropdown-menu-light lang-menu-wrapper mt-1"
           style="min-width: fit-content"
         >
-          <ul class="lang-menu">
-            <li class="dropdown-item lang-item lang-he">
-              <img src="images/flags/il.svg" alt="" />
-              <span>IL</span>
-            </li>
-            <li class="dropdown-item lang-item lang-en">
-              <img src="images/flags/us.svg" alt="" />
-              <span>US</span>
-            </li>
-            <li class="dropdown-item lang-item lang-es">
-              <img src="images/flags/es.svg" alt="" />
-              <span>ES</span>
-            </li>
-          </ul>
+          <ul class="lang-menu"></ul>
         </ul>
       </div>
 

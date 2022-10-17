@@ -106,33 +106,48 @@ const gTrans = {
   },
 }
 
-var gLang = 'en' //TODO: use queryparams
+var gCurrLang = 'en' //TODO: use queryparams
 
-function getLang() {
-  return gLang
+const gStates = {
+  il: 'he',
+  us: 'en',
+  es: 'es',
+  gb: 'en',
+}
+
+function getCurrLang() {
+  return gCurrLang
+}
+
+function getLangByState(state) {
+  return gStates[state]
+}
+
+function getStates() {
+  return Object.keys(gStates)
 }
 
 function getTrans(key) {
   if (!gTrans[key]) return 'NOT_FOUND'
 
-  if (!gTrans[key][gLang]) return gTrans[key].en
+  if (!gTrans[key][gCurrLang]) return gTrans[key].en
 
-  return gTrans[key][gLang]
+  return gTrans[key][gCurrLang]
 }
 
 function doTrans() {
   $('[data-trans]').each(function () {
     const $el = $(this)
-    const trans = getTrans($el.data('trans'), gLang)
+    const trans = getTrans($el.data('trans'), gCurrLang)
     if ($el.is('input')) $el.attr('placeholder', trans)
     else $el.text(trans)
   })
 }
 
-function changeLang(lang) {
-  gLang = lang
+function setLang(state) {
+  gCurrLang = getLangByState(state)
 
-  if (lang === 'he') {
+  if (gCurrLang === 'he') {
     $('.bootstrap-rtl').attr(
       'href',
       'https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css'
@@ -145,12 +160,21 @@ function changeLang(lang) {
     $('html').attr('dir', 'ltr')
   }
 
-  $('html').attr('lang', lang)
-  doTrans(lang)
+  $('html').attr('lang', gCurrLang)
+  doTrans(gCurrLang)
+
+  const $selectedLang = $('.curr-selected-lang')
+  $selectedLang
+    .find('img')
+    .attr('src', `images/flags/${state}.svg`)
+    .attr('alt', state)
+  $selectedLang.find('span').text(state)
+
+  saveToQuery({ state })
 }
 
 function getDir() {
-  if (gLang === 'he') return 'rtl'
+  if (gCurrLang === 'he') return 'rtl'
   return 'ltr'
 }
 
@@ -159,8 +183,6 @@ function setDirection($el) {
 
   const enMatches = val.match(new RegExp('[A-Za-z]', 'g')) || []
   const heMatches = val.match(new RegExp('[א-ת]', 'g')) || []
-
-  console.log(val, enMatches, heMatches)
 
   if (enMatches.length === heMatches.length) {
     $el.css('direction', getDir())
@@ -270,7 +292,7 @@ gLoremWords = {
 }
 
 function getLoremLang() {
-  const words = gLoremWords[gLang]
+  const words = gLoremWords[gCurrLang]
   return getLorem(words)
 }
 

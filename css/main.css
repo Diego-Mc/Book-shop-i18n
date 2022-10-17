@@ -147,7 +147,6 @@ input {
 }
 
 .lang-menu-wrapper {
-  /* padding: 0; */
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
@@ -157,7 +156,6 @@ input {
   padding: 0;
   justify-content: center;
   align-items: center;
-  height: 6rem;
 }
 
 .lang-item {
@@ -167,10 +165,9 @@ input {
   align-items: center;
   flex: 1 1 0;
   cursor: pointer;
-  /* --bs-text-opacity: 1;
-  color: #6c757d !important; */
   opacity: 0.7;
   font-size: 0.875rem;
+  letter-spacing: 0.05rem;
 }
 
 .lang-item:hover {
@@ -206,11 +203,16 @@ input {
   border-radius: 1rem;
 }
 
-.lang-btn img {
-  width: 16px;
+.curr-selected-lang img {
+  width: 13px;
   border-radius: 50%;
-  height: 16px;
+  height: 13px;
   object-fit: cover;
+}
+
+.curr-selected-lang span {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
 }
 
 .lang-btn .bi {
@@ -221,8 +223,4 @@ input {
   background-color: var(--bs-btn-active-bg);
   padding: 0rem 0.4rem;
   border-radius: 1rem;
-}
-
-.curr-selected-lang > * {
-  transform: scale(85%);
 }

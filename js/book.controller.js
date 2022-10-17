@@ -44,6 +44,7 @@ function renderBooks() {
 
   $(`.book-${gView}`).removeClass('d-none')
   _setBooksOptionsListener()
+  $('.card-title').each(_$setDir)
 }
 
 function onSetView(ev) {
@@ -260,6 +261,12 @@ function _getBookCardHTML(bookId) {
 function _showModalByCrudType(modalType) {
   $('.modal-body-option').hide()
   $(`[name=${modalType}-book]`).show()
+
+  $('input[type=text]').each(_$setDir).keyup(_$setDir)
+}
+
+function _$setDir() {
+  setDirection($(this))
 }
 
 function _setModalHeader(title) {
@@ -300,7 +307,7 @@ function onRead(ev) {
   const book = getBook(bookId)
   const $modal = $('[name=read-book]')
 
-  $modal.find('.modal-body p').text(getLorem())
+  $modal.find('.modal-body p').text(getLoremLang())
   $modal.find('[name=book-rate]').text(book.rate)
 
   $modal

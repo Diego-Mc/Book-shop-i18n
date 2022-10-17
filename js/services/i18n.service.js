@@ -1,7 +1,7 @@
 const gTrans = {
   'website-title': {
     en: "Diego's Book-Shop",
-    he: 'הספריה של דיאגו',
+    he: 'חנות הספרים של דיאגו',
     es: 'La Librería de Diego',
   },
   'grid-view': {
@@ -141,9 +141,135 @@ function changeLang(lang) {
     $('html').attr('dir', 'rtl')
   } else {
     $('.bootstrap-rtl').attr('href', '')
+    $('.rtl-fixes').attr('href', '')
     $('html').attr('dir', 'ltr')
   }
 
   $('html').attr('lang', lang)
   doTrans(lang)
+}
+
+function getDir() {
+  if (gLang === 'he') return 'rtl'
+  return 'ltr'
+}
+
+function setDirection($el) {
+  const val = $el.text() || $el.val()
+
+  const enMatches = val.match(new RegExp('[A-Za-z]', 'g')) || []
+  const heMatches = val.match(new RegExp('[א-ת]', 'g')) || []
+
+  console.log(val, enMatches, heMatches)
+
+  if (enMatches.length === heMatches.length) {
+    $el.css('direction', getDir())
+  } else if (enMatches.length > heMatches.length) {
+    $el.css('direction', 'ltr')
+  } else {
+    $el.css('direction', 'rtl')
+  }
+}
+
+// lorem support
+
+gLoremWords = {
+  he: [
+    'השמיים',
+    'מעל',
+    'הנמל',
+    'היה',
+    'הצבע של הטלוויזיה',
+    'הופעל',
+    'בשביל',
+    'ערוץ מת',
+    'הכל',
+    'זה קרה',
+    'פחות או יותר',
+    'אני',
+    'היה לי',
+    'הסיפור',
+    'לאט לאט',
+    'מעל מני אנשים',
+    'וגם',
+    'באופן כללי',
+    'קרה',
+    'במקרים כאלה',
+    'בכל פעם',
+    'זה',
+    'היה',
+    'סיפור אחר',
+    'זה',
+    'היה',
+    'תענוג',
+    'בשביל',
+    'להשרף',
+  ],
+  es: [
+    'el cielo',
+    'arriba',
+    'el puerto',
+    'estaba',
+    'el color de la televisión',
+    'sintonizado',
+    'a',
+    'un canal muerto',
+    'todos',
+    'esto ocurrió',
+    'más o menos',
+    'yo',
+    'tenido',
+    'la historia',
+    'poco a poco',
+    'de varias personas',
+    'y',
+    'como generalmente',
+    'sucede',
+    'en esos casos',
+    'cada vez',
+    'eso',
+    'estaba',
+    'una historia diferente',
+    'eso',
+    'estaba',
+    'Un placer',
+    'a',
+    'quemar',
+  ],
+  en: [
+    'the sky',
+    'above',
+    'the port',
+    'was',
+    'the color of television',
+    'tuned',
+    'to',
+    'a dead channel',
+    'all',
+    'this happened',
+    'more or less',
+    'I',
+    'had',
+    'the story',
+    'bit by bit',
+    'from various people',
+    'and',
+    'as generally',
+    'happens',
+    'in such cases',
+    'each time',
+    'it',
+    'was',
+    'a different story',
+    'it',
+    'was',
+    'a pleasure',
+    'to',
+    'burn',
+  ],
+}
+
+function getLoremLang() {
+  const words = gLoremWords[gLang]
+  return getLorem(words)
 }

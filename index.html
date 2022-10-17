@@ -37,45 +37,13 @@
       style="min-height: calc(100vh - 86px)"
     >
       <div class="d-flex flex-column gap-3 pb-4">
-        <header class="d-flex align-items-center justify-content-between">
-          <div class="placeholder"></div>
-          <h1 class="p-0 m-0 lh-1 fw-bold" data-trans="website-title">
+        <header class="m-2">
+          <h1
+            class="p-0 m-0 lh-1 fw-bold text-center"
+            data-trans="website-title"
+          >
             Diego's Book-Shop
           </h1>
-          <div class="dropdown">
-            <button
-              class="btn btn-outline-dark rounded-circle"
-              style="width: 42px; height: 42px"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="bi bi-translate"></i>
-            </button>
-            <ul class="dropdown-menu lang-menu" style="min-width: fit-content">
-              <li class="dropdown-item rounded-circle lang-item lang-he">
-                <iconify-icon
-                  icon="emojione:flag-for-israel"
-                  width="32"
-                  height="32"
-                ></iconify-icon>
-              </li>
-              <li class="dropdown-item rounded-circle lang-item lang-en">
-                <iconify-icon
-                  icon="emojione:flag-for-united-states"
-                  width="32"
-                  height="32"
-                ></iconify-icon>
-              </li>
-              <li class="dropdown-item rounded-circle lang-item lang-es">
-                <iconify-icon
-                  icon="emojione:flag-for-spain"
-                  width="32"
-                  height="32"
-                ></iconify-icon>
-              </li>
-            </ul>
-          </div>
         </header>
 
         <!-- Filter section -->
@@ -89,7 +57,7 @@
             autocomplete="off"
           />
           <label
-            class="btn btn-outline-primary d-flex flex-nowrap text-nowrap"
+            class="btn btn-light d-flex flex-nowrap text-nowrap"
             for="view-btn"
           >
             <i class="bi bi-grid-fill"></i>
@@ -106,10 +74,7 @@
             autocomplete="off"
             checked
           />
-          <label
-            class="btn btn-outline-primary filter-btn text-nowrap"
-            for="name-filter"
-          >
+          <label class="btn btn-light filter-btn text-nowrap" for="name-filter">
             <i class="bi icon bi-fonts"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
@@ -124,7 +89,7 @@
             autocomplete="off"
           />
           <label
-            class="btn btn-outline-primary filter-btn text-nowrap"
+            class="btn btn-light filter-btn text-nowrap"
             for="price-filter"
           >
             <i class="bi icon bi-currency-exchange"></i>
@@ -142,10 +107,7 @@
             id="rate-filter"
             autocomplete="off"
           />
-          <label
-            class="btn btn-outline-primary filter-btn text-nowrap"
-            for="rate-filter"
-          >
+          <label class="btn btn-light filter-btn text-nowrap" for="rate-filter">
             <i class="bi icon bi-star-fill"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
@@ -153,7 +115,7 @@
           </label>
 
           <input
-            class="form-control searchbar flex-grow-1"
+            class="form-control searchbar bg-light flex-grow-1"
             style="width: 0"
             type="search"
             placeholder="Search"
@@ -215,7 +177,7 @@
                       <label class="col-form-label"
                         ><span data-trans="rate">Rate</span>:</label
                       >
-                      <div class="input-group">
+                      <div class="input-group rate-book-group">
                         <button
                           class="input-group-text d-inline-block book-rate-plus"
                           style="width: 42px"
@@ -465,6 +427,39 @@
           </table>
         </div>
       </div>
+      <div class="dropdown position-fixed top-0 end-0 me-5 mt-4">
+        <button
+          class="btn btn-dark d-flex justify-content-start gap-2 align-items-center lang-btn"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <span class="curr-selected-lang d-flex align-items-center gap-2">
+            <img src="images/flags/il.svg" alt="" />
+            <span>IL</span>
+          </span>
+          <i class="bi bi-caret-down-fill"></i>
+        </button>
+        <ul
+          class="dropdown-menu dropdown-menu-light lang-menu-wrapper"
+          style="min-width: fit-content"
+        >
+          <ul class="lang-menu">
+            <li class="dropdown-item lang-item lang-he">
+              <img src="images/flags/il.svg" alt="" />
+              <span>IL</span>
+            </li>
+            <li class="dropdown-item lang-item lang-en">
+              <img src="images/flags/us.svg" alt="" />
+              <span>US</span>
+            </li>
+            <li class="dropdown-item lang-item lang-es">
+              <img src="images/flags/es.svg" alt="" />
+              <span>ES</span>
+            </li>
+          </ul>
+        </ul>
+      </div>
 
       <nav
         class="position-absolute top-100 start-50 translate-middle-x"
@@ -474,7 +469,7 @@
       </nav>
 
       <button
-        class="btn btn-primary book-add rounded-circle position-fixed bottom-0 end-0 m-5 d-flex justify-content-center align-items-center"
+        class="btn btn-dark book-add rounded-circle position-fixed bottom-0 end-0 m-5 d-flex justify-content-center align-items-center"
         data-bs-toggle="modal"
         data-bs-target="#modal"
         style="width: 40px; height: 40px"

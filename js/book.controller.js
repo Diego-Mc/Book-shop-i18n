@@ -182,7 +182,7 @@ function _getBookOptionsHTML() {
                 >
                   <i class="bi bi-three-dots-vertical"></i>
                 </button>
-                <ul class="dropdown-menu" style="min-width: fit-content">
+                <ul class="dropdown-menu book-options-menu" style="min-width: fit-content">
                   <li>
                     <button
                       class="dropdown-item read-option"

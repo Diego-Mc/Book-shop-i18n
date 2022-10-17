@@ -8,6 +8,10 @@
   margin-left: 0 !important;
 }
 
+/* .lang-menu {
+  transform: translate(-4px, 35px) !important;
+} */
+
 .offset-1 {
   margin-left: 0;
 }
@@ -47,6 +51,32 @@ header {
   direction: ltr;
 }
 
-.dropdown-menu:not(.lang-menu) {
+/* .dropdown-menu:not(.lang-menu) {
   transform: translate(126px, 52px) !important;
+} */
+
+.rate-book-group {
+  flex-direction: row-reverse !important;
+}
+
+.rate-book-group > :last-child {
+  border-top-right-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.rate-book-group > :first-child {
+  border-top-left-radius: 0.375rem !important;
+  border-bottom-left-radius: 0.375rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.lang-btn {
+  direction: ltr;
+}
+
+.book-options-menu {
+  transform: translate(100px, 52px) !important;
 }

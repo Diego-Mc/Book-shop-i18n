@@ -224,3 +224,14 @@ input {
   padding: 0rem 0.4rem;
   border-radius: 1rem;
 }
+
+.book-options-menu {
+  --bs-dropdown-link-active-bg: #212529;
+}
+
+@media (max-width: 576px) {
+  .book-view-type {
+    transform: translate(-1.5rem, 0);
+    width: 100vw;
+  }
+}

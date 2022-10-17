@@ -48,7 +48,7 @@
 }
 
 header {
-  direction: ltr;
+  /* direction: ltr; */
 }
 
 /* .dropdown-menu:not(.lang-menu) {
@@ -73,7 +73,8 @@ header {
   border-bottom-right-radius: 0 !important;
 }
 
-.lang-btn {
+.lang-btn,
+.lang-menu {
   direction: ltr;
 }
 

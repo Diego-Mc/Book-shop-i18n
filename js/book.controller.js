@@ -56,7 +56,10 @@ function _renderLangPicker() {
   $('.lang-menu').html(langOptionsHTMLs)
 
   state.forEach((state) => {
-    $(`.lang-${state}`).click(() => setLang(state))
+    $(`.lang-${state}`).click(() => {
+      setLang(state)
+      renderBooks()
+    })
   })
 }
 
@@ -147,50 +150,57 @@ function _renderTable() {
 function _renderRow(bookId) {
   const book = getBook(bookId)
   const rowHTML = `
-              <tr data-id="${bookId}" class="book-element">
-                <th scope="row">${book.name}</th>
-                <td>${book.price}</td>
-                <td>${book.rate}</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary read-option custom-sm-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal"
-                  >
-                    <i class="bi bi-book"></i>
-                    <span data-trans="read" class="ms-1">
-                      ${getTrans('read')}
-                    </span>
-                  </button>
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary update-option custom-sm-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal"
-                  >
-                    <i class="bi bi-pencil-square"></i>
-                    <span data-trans="update" class="ms-1">
-                      ${getTrans('update')}
-                    </span>
-                  </button>
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger delete-option custom-sm-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal"
-                  >
-                    <i class="bi bi-trash3"></i>
-                    <span data-trans="delete" class="ms-1">
-                      ${getTrans('delete')}
-                    </span>
-                  </button>
-                </td>
-              </tr>`
+    <tr data-id="${bookId}" class="book-element">
+      <th scope="row">${book.name}</th>
+      <td data-currency="us">
+        ${formatCurrency(book.price)}
+      </td>
+      <td>
+        <div class="d-flex align-items-center justify-content-center">
+          ${book.rate}
+          <i class="ms-1 bi bi-star-fill"></i>
+        </div>
+      </td>
+      <td colspan=3>
+        <div
+          class="d-flex justify-content-between flex-column flex-sm-row"
+        >
+          <button
+            type="button"
+            class="btn btn-outline-primary read-option custom-sm-btn text-nowrap"
+            data-bs-toggle="modal"
+            data-bs-target="#modal"
+          >
+            <i class="bi bi-book"></i>
+            <span data-trans="read" class="ms-1">
+              ${getTrans('read')}
+            </span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary update-option custom-sm-btn text-nowrap"
+            data-bs-toggle="modal"
+            data-bs-target="#modal"
+          >
+            <i class="bi bi-pencil-square"></i>
+            <span data-trans="update" class="ms-1">
+              ${getTrans('update')}
+            </span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-danger delete-option custom-sm-btn text-nowrap"
+            data-bs-toggle="modal"
+            data-bs-target="#modal"
+          >
+            <i class="bi bi-trash3"></i>
+            <span data-trans="delete" class="ms-1">
+              ${getTrans('delete')}
+            </span>
+          </button>
+        </div>
+      </td>
+    </tr>`
   return rowHTML
 }
 
@@ -270,9 +280,8 @@ function _getBookCardHTML(bookId) {
                   <div
                     class="fw-light text-muted d-flex w-100 justify-content-between"
                   >
-                    <span class="book-price fw-normal lh-1">
-                    ${book.price}
-                    <span>$</span>
+                    <span data-currency="us" class="book-price fw-normal lh-1">
+                    ${formatCurrency(book.price)}
                     </span>
                     <p class="d-flex gap-1 lh-1 book-stars">
                       ${_getStarsHTML(book.rate)}
@@ -401,7 +410,7 @@ function onAddBook() {
   const $titleInput = $modal.find('.title-input').val('')
   const $priceInput = $modal.find('.price-input').val('')
   const $isbnInput = $modal.find('.isbn-input').val('')
-  const defaultHeader = getTrans('book-title', getCurrLang())
+  const defaultHeader = getTrans('book-title')
 
   $titleInput
     .off('keyup')

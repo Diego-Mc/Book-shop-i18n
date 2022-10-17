@@ -37,18 +37,42 @@
       style="min-height: calc(100vh - 86px)"
     >
       <div class="d-flex flex-column gap-3 pb-4">
-        <header class="m-2">
+        <header
+          class="m-2 d-flex justify-content-between gap-4 align-items-center"
+        >
           <h1
-            class="p-0 m-0 lh-1 fw-bold text-center"
+            class="p-0 m-0 lh-1 fw-bold text-start text-md-center"
             data-trans="website-title"
           >
             Diego's Book-Shop
           </h1>
+          <div class="dropdown">
+            <button
+              class="btn btn-dark d-flex justify-content-start gap-2 align-items-center lang-btn"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span
+                class="curr-selected-lang text-uppercase d-flex align-items-center gap-2"
+              >
+                <img src="images/flags/us.svg" alt="" />
+                <span>US</span>
+              </span>
+              <i class="bi bi-caret-down-fill"></i>
+            </button>
+            <ul
+              class="dropdown-menu dropdown-menu-light lang-menu-wrapper mt-1"
+              style="min-width: fit-content"
+            >
+              <ul class="lang-menu"></ul>
+            </ul>
+          </div>
         </header>
 
         <!-- Filter section -->
         <section
-          class="filter-container d-flex justify-content-between col-12 col-xxl-9 align-self-start gap-2 gap-md-3"
+          class="filter-container d-flex flex-wrap flex-sm-nowrap justify-content-sm-between justify-content-start col-12 col-xxl-9 align-self-start gap-2 gap-md-3"
         >
           <input
             type="checkbox"
@@ -78,7 +102,8 @@
             <i class="bi icon bi-fonts"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
-            <span data-trans="name" class="d-none d-md-inline ms-1">Name</span>
+            <!-- <span data-trans="name" class="d-none d-md-inline ms-1">Name</span> -->
+            <span data-trans="name" class="d-inline ms-1">Name</span>
           </label>
 
           <input
@@ -95,9 +120,10 @@
             <i class="bi icon bi-currency-exchange"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
-            <span class="d-none d-md-inline ms-1" data-trans="price"
+            <!-- <span class="d-none d-md-inline ms-1" data-trans="price"
               >Price</span
-            >
+            > -->
+            <span class="d-inline ms-1" data-trans="price">Price</span>
           </label>
 
           <input
@@ -111,11 +137,12 @@
             <i class="bi icon bi-star-fill"></i>
             <i class="bi bi-caret-up-fill"></i>
             <i class="bi bi-caret-down-fill"></i>
-            <span class="d-none d-md-inline ms-1" data-trans="rate">Rate</span>
+            <!-- <span class="d-none d-md-inline ms-1" data-trans="rate">Rate</span> -->
+            <span class="d-inline ms-1" data-trans="rate">Rate</span>
           </label>
 
           <input
-            class="form-control searchbar bg-light flex-grow-1"
+            class="form-control searchbar bg-light w-100 flex-grow-1"
             style="width: 0"
             type="search"
             placeholder="Search"
@@ -248,6 +275,7 @@
                         <div
                           class="input-group-text d-flex justify-content-center"
                           style="width: 40px"
+                          data-currency="us"
                         >
                           $
                         </div>
@@ -292,7 +320,7 @@
                   <button
                     type="button"
                     data-bs-dismiss="modal"
-                    class="btn btn-primary add-book-btn"
+                    class="btn btn-dark add-book-btn"
                     data-trans="add-book"
                   >
                     Add Book
@@ -350,6 +378,7 @@
                         <div
                           class="input-group-text d-flex justify-content-center"
                           style="width: 40px"
+                          data-currency="us"
                         >
                           $
                         </div>
@@ -394,7 +423,7 @@
                   <button
                     type="button"
                     data-bs-dismiss="modal"
-                    class="btn btn-primary update-book-btn"
+                    class="btn btn-dark update-book-btn"
                     data-trans="update"
                   >
                     Update
@@ -409,7 +438,7 @@
         <div class="container">
           <!-- Cards view -->
           <div
-            class="d-flex book-view-type flex-wrap book-cards justify-content-between gap-4"
+            class="d-flex book-view-type flex-wrap book-cards justify-content-md-between justify-content-center gap-4"
           ></div>
           <!-- Table view -->
           <table
@@ -427,28 +456,6 @@
           </table>
         </div>
       </div>
-      <div class="dropdown position-fixed top-0 end-0 me-5 mt-4">
-        <button
-          class="btn btn-dark d-flex justify-content-start gap-2 align-items-center lang-btn"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          <span
-            class="curr-selected-lang text-uppercase d-flex align-items-center gap-2"
-          >
-            <img src="images/flags/us.svg" alt="" />
-            <span>US</span>
-          </span>
-          <i class="bi bi-caret-down-fill"></i>
-        </button>
-        <ul
-          class="dropdown-menu dropdown-menu-light lang-menu-wrapper mt-1"
-          style="min-width: fit-content"
-        >
-          <ul class="lang-menu"></ul>
-        </ul>
-      </div>
 
       <nav
         class="position-absolute top-100 start-50 translate-middle-x"
@@ -458,7 +465,7 @@
       </nav>
 
       <button
-        class="btn btn-dark book-add rounded-circle position-fixed bottom-0 end-0 m-5 d-flex justify-content-center align-items-center"
+        class="btn btn-dark book-add rounded-circle position-fixed bottom-0 end-0 mb-5 me-4 me-sm-5 d-flex justify-content-center align-items-center"
         data-bs-toggle="modal"
         data-bs-target="#modal"
         style="width: 40px; height: 40px"

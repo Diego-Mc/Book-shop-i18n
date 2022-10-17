@@ -69,3 +69,10 @@
 .book-options-menu {
   transform: translate(100px, 52px) !important;
 }
+
+@media (max-width: 576px) {
+  .book-view-type {
+    transform: translate(1.5rem, 0);
+    width: 100vw;
+  }
+}
